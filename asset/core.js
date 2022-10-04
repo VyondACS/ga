@@ -56,6 +56,10 @@ module.exports = function (req, res, url) {
             const ext = name.substr(dot + 1);
             const id = fUtil.makeid(12);
             asset.getFolders(f.type).then(folder => fs.writeFileSync(`${folder}/${id}.${ext}`, buffer)).catch(e => console.log(e));
+            if (!fUtil.exists(process.env.DATABASES_FOLDER + '/names')) fs.mkdirSync(process.env.DATABASES_FOLDER + '/names');
+            fs.writeFileSync(process.env.DATABASES_FOLDER + `/names/${id}.txt`, name);
+            if (!fUtil.exists(`./static/store/${f.type}`)) fs.mkdirSync(`./static/store/${f.type}`);
+            fs.writeFileSync(`./static/store/${f.type}/${id}.${ext}`, buffer);
             res.end(0 + id);
             fs.unlinkSync(path);
           });

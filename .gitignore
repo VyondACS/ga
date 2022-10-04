@@ -1,6 +1,7 @@
 files/movies/*
 files/starters/*
 files/assets/*
+static/store/*
 env.json
 package-lock.json
 node_modules
