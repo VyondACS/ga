@@ -1,9 +1,9 @@
 // vars
 const loadPost = require("../req/body");
-const formidable = require("formidable");
 const asset = require('./main');
 const fUtil = require('../fileUtil');
 const fs = require('fs');
+const formidable = require("formidable");
 const xml = require('../xml');
 const base = Buffer.alloc(1, 0);
 // functions
@@ -37,12 +37,27 @@ module.exports = function (req, res, url) {
     case "POST": {
       switch (req.url) {
         // i don't know what to expect here. but a blank asset error will give you other options.
+        case "/goapi/getCommunityAssets/":
+        case "/goapi/searchCommunityAssets/":
         case "/goapi/getUserAssets/": {
           loadPost(req, res).then(data => asset.getXmlsForZip(data)).then((buff) => {
             res.setHeader("Content-Type", "application/zip");
             res.write(base);
             res.end(buff);
           }).catch(e => console.log(e));
+          return true;
+        } case "/goapi/saveBackground/": {
+          new formidable.IncomingForm().parse(req, (e, f, files) => {
+            const path = files.Filedata.path;
+            const buffer = fs.readFileSync(path);
+            const name = f.Filename;
+            const dot = name.lastIndexOf('.');
+            const ext = name.substr(dot + 1);
+            const id = fUtil.makeid(12);
+            fs.writeFileSync(`${process.env.BG_FOLDER}/${id}.${ext}`, buffer);
+            res.end(id + buffer);
+            fs.unlinkSync(path);
+          });
           return true;
         } case "/goapi/deleteAsset/": {
           loadPost(req, res).then(data => {
