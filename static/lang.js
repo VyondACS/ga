@@ -9,7 +9,7 @@ module.exports = function (req, res) {
   const type = match[1];
   const stuff = match[2];
   const id = match[3];
-  get(`https://josephanimate2021.github.io/static/477/client_theme/${type}/${stuff}/${id}`).then(b => res.end(b)).catch(e => {
+  get(env.CLIENT_URL + `/client_theme/${type}/${stuff}/${id}`).then(b => res.end(b)).catch(e => {
     console.log(e); 
     res.end('404 Not Found'); 
   });
