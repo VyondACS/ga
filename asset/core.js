@@ -46,7 +46,8 @@ module.exports = function (req, res, url) {
             res.end(buff);
           }).catch(e => console.log(e));
           return true;
-        } case "/goapi/saveBackground/": {
+        } case "/goapi/saveBackground/":
+        case "/goapi/saveProp/": {
           new formidable.IncomingForm().parse(req, (e, f, files) => {
             const path = files.Filedata.path;
             const buffer = fs.readFileSync(path);
@@ -54,8 +55,8 @@ module.exports = function (req, res, url) {
             const dot = name.lastIndexOf('.');
             const ext = name.substr(dot + 1);
             const id = fUtil.makeid(12);
-            fs.writeFileSync(`${process.env.BG_FOLDER}/${id}.${ext}`, buffer);
-            res.end(id + buffer);
+            asset.getFolders(f.type).then(folder => fs.writeFileSync(`${folder}/${id}.${ext}`, buffer)).catch(e => console.log(e));
+            res.end(0 + id);
             fs.unlinkSync(path);
           });
           return true;
