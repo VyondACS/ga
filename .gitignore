@@ -4,3 +4,5 @@ files/assets/*
 env.json
 package-lock.json
 node_modules
+themelist.xml
+themelist.zip
