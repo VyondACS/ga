@@ -49,18 +49,7 @@ module.exports = function (req, res, url) {
         } case "/goapi/saveBackground/":
         case "/goapi/saveProp/": {
           new formidable.IncomingForm().parse(req, (e, f, files) => {
-            const path = files.Filedata.path;
-            const buffer = fs.readFileSync(path);
-            const name = f.Filename;
-            const dot = name.lastIndexOf('.');
-            const ext = name.substr(dot + 1);
-            const id = fUtil.makeid(12);
-            asset.getFolders(f.type).then(folder => fs.writeFileSync(`${folder}/${id}.${ext}`, buffer)).catch(e => console.log(e));
-            if (!fUtil.exists(process.env.DATABASES_FOLDER + '/names')) fs.mkdirSync(process.env.DATABASES_FOLDER + '/names');
-            fs.writeFileSync(process.env.DATABASES_FOLDER + `/names/${id}.txt`, name);
-            if (!fUtil.exists(`./static/store/${f.type}`)) fs.mkdirSync(`./static/store/${f.type}`);
-            fs.writeFileSync(`./static/store/${f.type}/${id}.${ext}`, buffer);
-            res.end(0 + id);
+            asset.lvmUpload(e, f, files).then(id => res.end(0 + id)).catch(e => console.log(e));
             fs.unlinkSync(path);
           });
           return true;
