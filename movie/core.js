@@ -10,7 +10,11 @@ module.exports = function (req, res, url) {
             const id = match[1];
             const ext = match[2];
             try {
-                res.end(fs.readFileSync(process.env.MOVIE_FOLDER + `/${id}.${ext}`));
+                try {
+                    res.end(fs.readFileSync(process.env.MOVIE_FOLDER + `/${id}.${ext}`));
+                } catch (e) {
+                    res.end(fs.readFileSync(process.env.STARTER_FOLDER + `/${id}.${ext}`));
+                }
             } catch (e) {
                 res.end('404 Not Found');
             }
