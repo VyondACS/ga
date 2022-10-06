@@ -50,7 +50,6 @@ module.exports = function (req, res, url) {
         case "/goapi/saveProp/": {
           new formidable.IncomingForm().parse(req, (e, f, files) => {
             asset.lvmUpload(e, f, files).then(id => res.end(0 + id)).catch(e => console.log(e));
-            fs.unlinkSync(path);
           });
           return true;
         } case "/goapi/deleteAsset/": {
