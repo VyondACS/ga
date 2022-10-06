@@ -25,7 +25,7 @@ function getTheme(id) {
 
 module.exports = {
 	parse(buffer) {
-		return new Promise(async (res) => res(await functions.packMovie(buffer)));
+		return new Promise(async res => res(await functions.packMovie(buffer)));
 	},
 	lvmUpload(e, f, files) {
 		return new Promise((res, rej) => {
@@ -189,14 +189,16 @@ module.exports = {
 		return table;
 	},
 	getBackgrounds() {
-		const table = [];
-		fs.readdirSync(process.env.BG_FOLDER).forEach(file => {
-			const id = file.slice(0, -4);
-			if (!fs.existsSync(process.env.DATABASES_FOLDER + `/names/${id}.txt`)) return;
-			const name = fs.readFileSync(process.env.DATABASES_FOLDER + `/names/${id}.txt`);
-			table.unshift({id: file, title: name});
+		return new Promise(res => {
+			const table = [];
+			fs.readdirSync(process.env.BG_FOLDER).forEach(file => {
+				const id = file.slice(0, -4);
+				if (!fs.existsSync(process.env.DATABASES_FOLDER + `/names/${id}.txt`)) return;
+				const name = fs.readFileSync(process.env.DATABASES_FOLDER + `/names/${id}.txt`);
+				table.unshift({id: file, title: name});
+			});
+			res(table);
 		});
-		return table;
 	},
 	getStarters() {
 		const table = [];
@@ -257,7 +259,7 @@ module.exports = {
 		else fs.writeFileSync(process.env.CHARS_FOLDER + `/${id}.png`, thumb);
 	},
 	getFolders(type) {
-		return new Promise((res) => {
+		return new Promise(res => {
 			switch(type) {
 				case "bg": {
 					res(process.env.BG_FOLDER);
@@ -270,16 +272,19 @@ module.exports = {
 		});
 	},
 	getFiles(folder) {
-		return new Promise((res) => fs.readdirSync(folder).forEach(file => res(file)));
+		return new Promise(res => fs.readdirSync(folder).forEach(file => res(file)));
 	},
 	async getXmlsForZip(data) {
 		var xml, files;
 		switch (data.type) {
 			case "bg": {
-				files = this.getBackgrounds();
-				xml = `<ugc more="0">${
-					files.map(v => `<background subtype="0" id="${v.id}" name="${v.title}" enable="Y"/>`).join("")
-				}</ugc>`;
+				this.getBackgrounds().then(files => {
+					xml = `<ugc more="0">${files.map(v => `<background subtype="0" id="${v.id}" name="${v.title}" enable="Y"/>`)
+						.join("")}</ugc>`;
+				}).catch(e => {
+					xml = `<ugc more="0"></ugc>`;
+					console.log(e);
+				});
 				break;
 			} case "movie": {
 				files = this.getStarters();
@@ -330,16 +335,19 @@ module.exports = {
 					}</ugc>`;
 					break;
 				} case "prop": {
-					files = this.getProps();
-					xml = `<ugc more="0">${files.map(
+					if (data.subtype == "video") xml = `<ugc more="0"></ugc>`;
+					else {
+						files = this.getProps();
+						xml = `<ugc more="0">${files.map(
 						v => `<prop subtype="0" id="${v.id}" name="${
 							v.title
 						}" enable="Y" holdable="${
 							v.holdable
 						}" headable="${v.headable}" placeable="${
 							v.placeable
-						}" wearable="${v.wearable}" facing="left" width="0" height="0" asset_url="/assets/${v.id}"/>`).join('')
-					}</ugc>`;
+						}" wearable="${v.wearable}" facing="left" width="0" height="0" asset_url="/assets/${v.id}"/>`).
+						join('')}</ugc>`;
+					}
 					break;
 				} default: {
 					xml = `<ugc more="0"></ugc>`;
