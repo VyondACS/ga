@@ -1,2 +1,2 @@
-1: create another branch using an api and turn this thing into an application
+1: create another branch using this api and turn it into an application
 2: fix movie saving
