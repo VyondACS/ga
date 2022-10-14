@@ -41,15 +41,22 @@ module.exports = function (req, res, url) {
           if (!url.query.movieid) {
             const id = "1734613";
             get(`https://web.archive.org/web/20200807182213if_/http://www.zimmertwins.com/movie/fetch?movieid=${id}`).then(buff => {
-              if (!fUtil.exists(process.env.MOVIE_FOLDER + `/${id}.txt`)) fs.writeFileSync(process.env.MOVIE_FOLDER + `/${id}.txt`, buff);
+              if (!fUtil.exists(process.env.STARTER_FOLDER + `/${id}.txt`)) fs.writeFileSync(process.env.STARTER_FOLDER + `/${id}.txt`, buff);
               if (!fUtil.exists(env.DATABASES_FOLDER + `/${
                 id
               }-title.txt`)) fs.writeFileSync(env.DATABASES_FOLDER + `/${id}-title.txt`, 'How2 Eat Tuna');
               if (!fUtil.exists(env.DATABASES_FOLDER + `/${id}-desc.txt`)) fs.writeFileSync(env.DATABASES_FOLDER + `/${id}-desc.txt`, '');
+              if (!fUtil.exists(env.DATABASES_FOLDER + `/${id}-date.txt`)) fs.writeFileSync(env.DATABASES_FOLDER + `/${
+                id
+              }-date.txt`, 'Jun 23 2020');
+              if (!fUtil.exists(env.DATABASES_FOLDER + `/${id}-user.txt`)) fs.writeFileSync(env.DATABASES_FOLDER + `/${id}-user.txt`, '3426');
+              if (!fUtil.exists(env.DATABASES_FOLDER + `/${id}-user-link.txt`)) fs.writeFileSync(env.DATABASES_FOLDER + `/${
+                id
+              }-user-link.txt`, 'https://www.google.com/search?q=3426');
               if (!url.query.redirect) res.end(buff);
               else {
                 res.statusCode = 302;
-                res.setHeader("Location", `/studio?movieId=${id}${url.query.apiVer == "2" ? "&version=2" : ""}`);
+                res.setHeader("Location", `/templates`);
                 res.end();
               }
             }).catch(e => {
@@ -156,7 +163,12 @@ module.exports = function (req, res, url) {
           });
           return true;
         } case "/movie/fetch": {
-          loadPost(req, res).then(data => res.end(fs.readFileSync(env.MOVIE_FOLDER + `/${data.movieid}.txt`))).catch(e => console.log(e));
+          loadPost(req, res).then(data => {
+            var buffer;
+            if (!fs.existsSync(env.MOVIE_FOLDER + `/${data.movieid}.txt`)) buffer = fs.readFileSync(env.STARTER_FOLDER + `/${data.movieid}.txt`);
+            else buffer = fs.readFileSync(env.MOVIE_FOLDER + `/${data.movieid}.txt`);
+            res.end(buffer);
+          }).catch(e => console.log(e));
           return true;
         }
       }

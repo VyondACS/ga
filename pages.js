@@ -29,10 +29,6 @@ module.exports = function (req, res, url) {
       if (mId) location.href = \`/player?movieId=\${mId}\`;
       else location.href = '/player';
     }
-  } function apiVerSelectForRandomMovieGenerator() {
-    const yesorno = confirm('Do you want to use version 2 of the studio? if not, then you will be redirected to version 1 of the studio.');
-    if (yesorno) location.href = '/movie/fetch?redirect=true&apiVer=2';
-    else location.href = '/movie/fetch?redirect=true';
   }</script>`;
   switch (url.pathname) {
    case "/": {
@@ -90,7 +86,7 @@ module.exports = function (req, res, url) {
               v.html
             }`
           ).join('') || `<h3>There are currently no movies at the moment. 
-          <a href='javascript:apiVerSelectForStudio()'>Create one now</a> | <a href='/upload?type=movie'>Upload</a> | <a href="javascript:apiVerSelectForRandomMovieGenerator()">Fetch A Random Movie</a></h3>`
+          <a href='javascript:apiVerSelectForStudio()'>Create one now</a> | <a href='/upload?type=movie'>Upload</a></h3>`
         }</ol>
         
         
@@ -197,7 +193,7 @@ module.exports = function (req, res, url) {
             v.html
           }`
         ).join('') || `<h3>There are currently no starters at the moment. 
-        <a href='/upload?type=starter'>Upload</a> | <a href="javascript:apiVerSelectForRandomMovieGenerator()">Fetch A Random Movie To Use As A Starter</a></h3>`
+        <a href='/upload?type=starter'>Upload</a> | <a href="/movie/fetch?redirect=true">Fetch A Random Starter</a></h3>`
       }</ol>
       
       
