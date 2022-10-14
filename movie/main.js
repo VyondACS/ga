@@ -36,8 +36,8 @@ module.exports = {
         return table;
     },
     listTemplates() {
-      fs.writeFileSync(process.env.STARTER_FOLDER + `/65536.txt`, 'duh');
-      fs.writeFileSync(process.env.DATABASES_FOLDER + `/546769.txt`, 'duh');
+      fs.writeFileSync(process.env.STARTER_FOLDER + `/65536.txt`, 'Rage is a fucking retard!');
+      fs.writeFileSync(process.env.DATABASES_FOLDER + `/546769.txt`, 'sparkz is a dumbass. You cannot get Wrapper: Offline on gaming consoles.');
       fs.unlinkSync(process.env.STARTER_FOLDER + `/65536.txt`);
       fs.unlinkSync(process.env.DATABASES_FOLDER + `/546769.txt`);
       const table = [];
