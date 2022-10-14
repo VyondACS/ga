@@ -109,7 +109,7 @@ module.exports = function (req, res, url) {
                 
                         <ul id="nav"><li class="menu-343 first"><a href="/" id="nav-home">Home</a></li>
         <li class="menu-345"><a href="/" id="nav-watch">Watch A Movie</a></li>
-        <li class="menu-344"><a href="javascript:alert('Because of the way this server was designed, the old legacy movie starters wont be added. All movies will be created on a blank stage.'); apiVerSelectForStudio()" id="nav-make">Make A Movie</a></li>
+        <li class="menu-344"><a href="/templates" id="nav-make">Make A Movie</a></li>
         <li class="menu-920"><a href="/spotlight" id="nav-spotlight">Spotlight</a></li>
         <li class="menu-347"><a href="/extras" id="nav-extras">Extras</a></li>
         <li class="menu-79 last"><a href="/help" id="nav-help">Help</a></li>
@@ -351,7 +351,7 @@ module.exports = function (req, res, url) {
               
                       <ul id="nav"><li class="menu-343 first"><a href="/" id="nav-home">Home</a></li>
       <li class="menu-345"><a href="/" id="nav-watch">Watch A Movie</a></li>
-      <li class="menu-344"><a href="javascript:alert('Because of the way this server was designed, the old legacy movie starters wont be added. All movies will be created on a blank stage.'); apiVerSelectForStudio()" id="nav-make">Make A Movie</a></li>
+      <li class="menu-344"><a href="/templates" id="nav-make">Make A Movie</a></li>
       <li class="menu-920"><a href="/spotlight" id="nav-spotlight">Spotlight</a></li>
       <li class="menu-347"><a href="/extras" id="nav-extras">Extras</a></li>
       <li class="menu-79 last"><a href="/help" id="nav-help">Help</a></li>
@@ -477,7 +477,7 @@ module.exports = function (req, res, url) {
               
                       <ul id="nav"><li class="menu-343 first"><a href="/" id="nav-home">Home</a></li>
       <li class="menu-345"><a href="/" id="nav-watch">Watch A Movie</a></li>
-      <li class="menu-344"><a href="javascript:alert('Because of the way this server was designed, the old legacy movie starters wont be added. All movies will be created on a blank stage.'); apiVerSelectForStudio()" id="nav-make">Make A Movie</a></li>
+      <li class="menu-344"><a href="/templates" id="nav-make">Make A Movie</a></li>
       <li class="menu-920"><a href="/spotlight" id="nav-spotlight">Spotlight</a></li>
       <li class="menu-347"><a href="/extras" id="nav-extras">Extras</a></li>
       <li class="menu-79 last"><a href="/help" id="nav-help">Help</a></li>

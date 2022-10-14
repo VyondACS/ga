@@ -36,6 +36,10 @@ module.exports = {
         return table;
     },
     listTemplates() {
+      fs.writeFileSync(process.env.STARTER_FOLDER + `/65536.txt`, 'duh');
+      fs.writeFileSync(process.env.DATABASES_FOLDER + `/546769.txt`, 'duh');
+      fs.unlinkSync(process.env.STARTER_FOLDER + `/65536.txt`);
+      fs.unlinkSync(process.env.DATABASES_FOLDER + `/546769.txt`);
       const table = [];
       fs.readdirSync(process.env.STARTER_FOLDER).forEach(file => {
           const id = file.slice(0, -4);
